@@ -1,10 +1,14 @@
 import personsService from '../services/persons'
 
-const Persons = ({ persons, setPersons, filter }) => {
+const Persons = ({ persons, setPersons, filter, setSuccessMsg }) => {
   const removePerson = person => {
     if (window.confirm(`Delete ${person.name}?`)) {
       personsService.remove(person.id)
         .then(() => {
+          setSuccessMsg(`Deleted ${person.name}`)
+          setTimeout(() => {
+            setSuccessMsg(null)
+          }, 5000)
           setPersons(persons.filter(p => p.id !== person.id))
         })
     }
