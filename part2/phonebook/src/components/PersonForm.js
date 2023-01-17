@@ -1,16 +1,27 @@
 import personsService from '../services/persons'
 
-const PersonForm = ({persons, setPersons, newName, newNumber, setNewName, setNewNumber}) => {
+const PersonForm = ({ persons, setPersons, newName, newNumber, setNewName, setNewNumber }) => {
   const addName = (event) => {
     event.preventDefault()
-    const newPerson = { 
+    const newPerson = {
       name: newName,
       number: newNumber
     };
 
+    // person already exists
     if (persons.some((person) => person.name === newPerson.name)) {
-      alert(`${newPerson.name} is already added to phonebook`)
-    } else {
+      if (window.confirm(`${newPerson.name} is already added to phonebook, replace the old number with a new one?`)) {
+        const oldPerson = persons.find(p => p.name === newName)
+        const changedPerson = {...oldPerson, number: newNumber }
+
+        personsService.update(changedPerson)
+          .then(resultPerson => {
+            setPersons(persons.map(p => p.id === resultPerson.id ? resultPerson : p))
+          })
+      }
+    } 
+    // person doesn't exist yet
+    else {
       personsService.add(newPerson)
         .then(addedPerson => {
           setPersons(persons.concat(addedPerson))
@@ -26,11 +37,11 @@ const PersonForm = ({persons, setPersons, newName, newNumber, setNewName, setNew
     setNewNumber(event.target.value)
   }
   return (
-      <form onSubmit={addName}>
-        <div>name: <input onChange={handleNameChange}/> </div>
-        <div>number: <input onChange={handleNumberChange}/> </div>
-        <div><button type="submit">add</button></div>
-      </form>
+    <form onSubmit={addName}>
+      <div>name: <input onChange={handleNameChange} /> </div>
+      <div>number: <input onChange={handleNumberChange} /> </div>
+      <div><button type="submit">add</button></div>
+    </form>
   )
 }
 
