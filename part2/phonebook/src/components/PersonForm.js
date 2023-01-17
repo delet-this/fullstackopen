@@ -1,3 +1,5 @@
+import personsService from '../services/persons'
+
 const PersonForm = ({persons, setPersons, newName, newNumber, setNewName, setNewNumber}) => {
   const addName = (event) => {
     event.preventDefault()
@@ -9,7 +11,10 @@ const PersonForm = ({persons, setPersons, newName, newNumber, setNewName, setNew
     if (persons.some((person) => person.name === newPerson.name)) {
       alert(`${newPerson.name} is already added to phonebook`)
     } else {
-      setPersons(persons.concat(newPerson))
+      personsService.add(newPerson)
+        .then(addedPerson => {
+          setPersons(persons.concat(addedPerson))
+        })
     }
   }
 
