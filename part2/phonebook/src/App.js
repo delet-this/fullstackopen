@@ -5,6 +5,7 @@ import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
 import Persons from './components/Persons'
 import NotificationSuccess from './components/NotificationSuccess'
+import NotificationError from './components/NotificationError'
 
 const App = () => {
   const [persons, setPersons] = useState([])
@@ -12,6 +13,7 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('')
   const [filter, setFilter] = useState('')
   const [successMsg, setSuccessMsg] = useState(null)
+  const [errorMsg, setErrorMsg] = useState(null)
 
   useEffect(() => {
     axios
@@ -26,6 +28,7 @@ const App = () => {
       <h2>Phonebook</h2>
 
       <NotificationSuccess message={successMsg} />
+      <NotificationError message={errorMsg} />
 
       <Filter setFilter={setFilter} />
 
@@ -34,14 +37,14 @@ const App = () => {
       <PersonForm
         persons={persons} setPersons={setPersons} newName={newName}
         newNumber={newNumber} setNewName={setNewName} setNewNumber={setNewNumber}
-        successMsg={successMsg} setSuccessMsg={setSuccessMsg}
+        setSuccessMsg={setSuccessMsg}
       />
 
       <h2>Numbers</h2>
 
       <Persons
         persons={persons} setPersons={setPersons} filter={filter}
-        successMsg={setSuccessMsg} setSuccessMsg={setSuccessMsg}
+        setSuccessMsg={setSuccessMsg} setErrorMsg={setErrorMsg}
       />
     </div>
   )
