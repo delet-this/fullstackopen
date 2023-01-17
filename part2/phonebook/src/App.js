@@ -27,14 +27,16 @@ const App = () => {
 
       <h2>Add a new</h2>
 
-      <PersonForm 
-        persons={persons} setPersons={setPersons} newName={newName} 
-        newNumber={newNumber} setNewName={setNewName} setNewNumber={setNewNumber} 
+      <PersonForm
+        persons={persons} setPersons={setPersons} newName={newName}
+        newNumber={newNumber} setNewName={setNewName} setNewNumber={setNewNumber}
       />
 
       <h2>Numbers</h2>
 
-      <Persons persons={persons} filter={filter} />
+      <Persons
+        persons={persons} setPersons={setPersons} filter={filter}
+      />
     </div>
   )
 
