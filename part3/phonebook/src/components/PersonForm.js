@@ -2,7 +2,7 @@ import personsService from '../services/persons'
 
 const PersonForm = ({
   persons, setPersons, newName, newNumber,
-  setNewName, setNewNumber, setSuccessMsg }) => {
+  setNewName, setNewNumber, setSuccessMsg, setErrorMsg }) => {
   const addName = (event) => {
     event.preventDefault()
     const newPerson = {
@@ -25,6 +25,12 @@ const PersonForm = ({
               setSuccessMsg(null)
             }, 5000)
           })
+          .catch(error => {
+            setErrorMsg(error.response.data.error)
+            setTimeout(() => {
+              setErrorMsg(null)
+            }, 5000)
+          })
       }
     }
     // person doesn't exist yet
@@ -35,6 +41,12 @@ const PersonForm = ({
           setSuccessMsg(`Added ${newName}`)
           setTimeout(() => {
             setSuccessMsg(null)
+          }, 5000)
+        })
+        .catch(error => {
+          setErrorMsg(error.response.data.error)
+          setTimeout(() => {
+            setErrorMsg(null)
           }, 5000)
         })
     }
